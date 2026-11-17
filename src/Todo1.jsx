@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
-
+import "./Todo1.css"
 function Todo1() {
     const [set, setValue] = useState({
         name: "",
@@ -10,61 +10,63 @@ function Todo1() {
     const [set2, setValue2] = useState("")
     const [set3, setValue3] = useState([])
     const [setid, setValueid] = useState("")
-    const [set4, setValue4] = useState("")
-     
+
     let display = (event) => {
         setValue({ ...set, [event.target.name]: event.target.value })
     }
     let send1 = (id) => {
-        axios.delete("http://localhost:3000/user/" + id)
+        axios.delete("http://localhost:3000/crud/users3/" + id)
             .then((Response) => {
                 console.log(Response.data)
                 setValue1("")
                 setValue2("")
-                axios.get("http://localhost:3000/user")
+                axios.get("http://localhost:3000/crud/users")
                     .then((Response) => {
                         console.log(Response.data)
                         setValue3(Response.data)
                     })
-                    setValue2("Delete Succesfully")
-                    setTimeout(() => {
+                setValue2("Delete Succesfully")
+                setTimeout(() => {
                     setValue2("")
                 }, 2000);
             })
             .catch((err) => console.log(err))
     }
     let send2 = (id) => {
-        axios.get("http://localhost:3000/user/" + id)
+        axios.get("http://localhost:3000/crud/users/" + id)
             .then((Response) => {
                 console.log(Response.data)
-                setValue(Response.data)
-                setValueid(id)
+                setValue({name:Response.data.name,
+                    age:Response.data.age
+                })
+                setValueid(Response.data._id)
+                
             })
             .catch((err) => console.log(err))
     }
     useEffect(() => {
-        console.log(axios.get("http://localhost:3000/user")
+        axios.get("http://localhost:3000/crud/users")
             .then((Response) => {
                 console.log(Response.data)
                 setValue3(Response.data)
             })
-            .catch((err) => console.log(err)))
+            .catch((err) => console.log(err))
     }, [])
     let send3 = () => {
-        axios.patch("http://localhost:3000/user/" + setid, set)
+        axios.patch("http://localhost:3000/crud/users4/" + setid, set)
             .then(() => {
                 alert("Successfully Updated")
                 setValue({
                     name: "",
                     age: ""
                 })
-                axios.get("http://localhost:3000/user")
+                axios.get("http://localhost:3000/crud/users")
                     .then((Response) => {
                         console.log(Response.data)
                         setValue3(Response.data)
                     })
-                    setValue1("Sumbit Succesfully")
-                    setTimeout(() => {
+                setValue1("Sumbit Succesfully")
+                setTimeout(() => {
                     setValue1("")
                 }, 2000);
             })
@@ -72,18 +74,19 @@ function Todo1() {
 
     }
     let send4 = () => {
-        axios.post("http://localhost:3000/user" , set )
-        .then(()=>{alert("Succesfully Updated")
-            setValue({
-                name:"",
-                age:""
-            })
-            axios.get("http://localhost:3000/uses")
+        axios.post("http://localhost:3000/crud/users2", set)
+            .then(() => {
+                alert("Succesfully Updated")
+                setValue({
+                    name: "",
+                    age: ""
+                })
+                axios.get("http://localhost:3000/crud/users")
                     .then((Response) => {
                         console.log(Response.data)
                         setValue3(Response.data)
                     })
-        })
+            })
 
     }
     let table = {
@@ -104,7 +107,7 @@ function Todo1() {
             <h2>To Do List</h2>
             Name:- <input type="text" value={set.name} name="name" onChange={display} /> <br />
             Age:- <input type="number" value={set.age} name="age" onChange={display} /> <br />
-            <button onClick={send3}>Update</button> <br />
+            <button onClick={send3}>Update</button>
             <button onClick={send4}>Create</button>
             <br />
             <p style={{ color: "red" }}>{set1}</p>
@@ -123,19 +126,19 @@ function Todo1() {
                     </tr>
                 </thead>
                 <tbody>
-                    {set3.map((r,index) => {
-                        return <tr key={r.id}>
+                    {set3.map((r, index) => {
+                        return <tr key={r._id}>
                             <td style={cell1}>{index + 1}</td>
                             <td style={cell1}>{r.name}</td>
                             <td style={cell1}>{r.age}</td>
-                            <td style={cell1}><button onClick={() => send1(r.id)}>Delete</button></td>
-                            <td style={cell1}><button onClick={() => send2(r.id)}>Edit</button></td>
+                            <td style={cell1}><button onClick={() => send1(r._id)}>Delete</button></td>
+                            <td style={cell1}><button onClick={() => send2(r._id)}>Edit</button></td>
                         </tr>
                     })}
                 </tbody>
             </table>
         </div>
-                    <p style={{ color: "red" }}>{set2}</p>
+        <p style={{ color: "red" }}>{set2}</p>
     </div>
 }
 export default Todo1

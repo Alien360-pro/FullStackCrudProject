@@ -1,0 +1,77 @@
+
+/* Main container */
+div {
+    font-family: Arial, sans-serif;
+}
+
+/* Heading */
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+/* Input fields */
+input {
+    padding: 8px;
+    margin: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+
+input:focus {
+    border-color: #007bff;
+}
+
+/* Buttons */
+button {
+    padding: 8px 15px;
+    margin: 5px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Table */
+table {
+    width: 60% !important;
+    margin: 15px auto;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+td {
+    border: 1px solid #ccc !important;
+    padding: 10px;
+}
+
+thead {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Delete button */
+td button:first-child {
+    background-color: #dc3545;
+}
+
+td button:hover {
+    opacity: 0.8;
+}
+
+/* Messages */
+p {
+    text-align: center;
+    color: red;
+}
+
+/* Task list */
+table + p {
+    margin-top: 20px;
+}
